@@ -3,18 +3,13 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/hendratommy/mongo-sequence/pkg/sequence"
 	"github.com/hendratommy/repository-pattern/models"
-	"github.com/hendratommy/repository-pattern/mongostore"
 	"github.com/hendratommy/repository-pattern/repositories"
 	"github.com/hendratommy/repository-pattern/sqlstore"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"os"
-	"time"
 )
 
 func try(err error) {
@@ -28,22 +23,22 @@ func main() {
 	var commentRepo models.CommentRepository
 
 	// start use mongodb
-	var dbName = "repositoryPattern"
-	var client, err = mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
-	if err != nil {
-		panic(err)
-	}
-	if err = client.Connect(context.TODO()); err != nil {
-		panic(err)
-	}
-	var mdb = client.Database(dbName)
-	// setup collections
-	mdb.CreateCollection(context.Background(), mongostore.PostCollection)
-	mdb.CreateCollection(context.Background(), mongostore.CommentCollection)
-	// setup default sequence
-	sequence.SetupDefaultSequence(mdb, 30*time.Second)
-	postRepo = repositories.NewMongoPostRepository(mdb)
-	commentRepo = repositories.NewMongoCommentRepository(mdb)
+	//var dbName = "repositoryPattern"
+	//var client, err = mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
+	//if err != nil {
+	//	panic(err)
+	//}
+	//if err = client.Connect(context.TODO()); err != nil {
+	//	panic(err)
+	//}
+	//var mdb = client.Database(dbName)
+	//// setup collections
+	//mdb.CreateCollection(context.Background(), mongostore.PostCollection)
+	//mdb.CreateCollection(context.Background(), mongostore.CommentCollection)
+	//// setup default sequence
+	//sequence.SetupDefaultSequence(mdb, 30*time.Second)
+	//postRepo = repositories.NewMongoPostRepository(mdb)
+	//commentRepo = repositories.NewMongoCommentRepository(mdb)
 	// end use mongodb
 
 	// start use postgres
